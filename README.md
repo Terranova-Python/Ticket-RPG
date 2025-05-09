@@ -12,3 +12,13 @@ Increase Engagement: Encourage proactive ticket resolution and system interactio
 Foster Team Spirit: Introduce a lighthearted, competitive (or collaborative) element to the workday.
 Clean & Modern Interface: Enjoy a minimal, dark-mode dashboard that's easy on the eyes and simple to navigate.
 Ready to make ticket management the most exciting part of the day? Discover Ticket RPG!
+
+![image](https://github.com/user-attachments/assets/c852905c-ee39-47ea-bf97-9680697a4d0f)
+
+![image](https://github.com/user-attachments/assets/5df2fd86-253d-4952-b25a-4605326f42ed)
+
+![image](https://github.com/user-attachments/assets/a033d7d6-3ef8-433e-b0fb-0f8a44745580)
+
+![image](https://github.com/user-attachments/assets/02eea164-d539-4d35-81f5-9384e990e0c4)
+
+![image](https://github.com/user-attachments/assets/4e4da63b-349e-4a49-805d-960adca6179c)
