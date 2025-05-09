@@ -1,0 +1,356 @@
+/* Basic Reset & Dark Theme */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #2c2c2c; /* Slightly lighter dark for header */
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    margin: 0;
+    color: #61dafb; /* Accent color */
+    font-size: 1.8em;
+}
+
+.character-info {
+    display: flex;
+    gap: 15px; /* Spacing between character stats */
+    font-size: 0.9em;
+}
+
+.character-info div {
+    background-color: #383838;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.character-info span {
+    font-weight: bold;
+    color: #a2d2ff; /* Light blue for values */
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for now, can be expanded */
+    gap: 20px;
+}
+
+section {
+    background-color: #252525; /* Darker section background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+section h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #61dafb;
+    padding-bottom: 10px;
+    color: #e0e0e0;
+    font-size: 1.5em;
+}
+
+/* Ticket Dashboard */
+.ticket-list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ticket-item {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 5px solid #61dafb; /* Accent border */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ticket-item:hover {
+    background-color: #3f3f3f;
+    transform: translateY(-2px);
+}
+
+.ticket-item h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+    color: #bde0fe;
+}
+
+.ticket-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #c0c0c0;
+}
+
+.ticket-item .status-open { color: #ffae42; font-weight: bold; } /* Orange for open */
+.ticket-item .status-closed { color: #77dd77; font-weight: bold; } /* Green for closed */
+
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7); /* Dark overlay */
+}
+
+.modal-content {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    margin: 10% auto;
+    padding: 25px;
+    border: 1px solid #444;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Elements */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #c0c0c0;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 22px); /* Full width minus padding and border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #383838;
+    color: #e0e0e0;
+    font-size: 1em;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button,
+.buy-item-btn {
+    background-color: #61dafb; /* Accent color */
+    color: #1a1a1a; /* Dark text on light button */
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover,
+.buy-item-btn:hover {
+    background-color: #4fa8d5; /* Darker shade on hover */
+}
+
+/* Editable Character Name */
+#char-name {
+    cursor: pointer;
+    display: inline-block; /* Allows for padding/margin if needed and proper click area */
+    padding: 2px 5px; /* Make it look slightly more like a button */
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+#char-name:hover {
+    background-color: #4f4f4f; /* Subtle hover effect */
+}
+
+/* Styling for the input field when editing the name */
+.char-name-input {
+    background-color: #555; /* Darker input background */
+    color: #e0e0e0;
+    border: 1px solid #61dafb; /* Accent border */
+    padding: 3px 5px;
+    font-family: inherit; /* Use the same font as the rest of the page */
+    font-size: inherit;   /* Use the same font size */
+    width: auto; /* Adjust width based on content, or set a fixed width */
+    max-width: 150px; /* Prevent it from getting too long */
+    border-radius: 3px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
+#open-create-ticket-modal-btn {
+    margin-bottom: 15px;
+}
+
+/* Ticket Details Modal Specifics */
+#details-ticket-notes {
+    list-style-type: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #383838;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#details-ticket-notes li {
+    padding: 8px;
+    border-bottom: 1px solid #4a4a4a;
+    font-size: 0.9em;
+}
+#details-ticket-notes li:last-child {
+    border-bottom: none;
+}
+#details-ticket-notes li .note-meta {
+    font-size: 0.8em;
+    color: #999;
+    display: block;
+}
+
+.add-note-section {
+    margin-top: 15px;
+}
+
+.add-note-section textarea {
+    width: calc(100% - 22px);
+}
+
+.ticket-actions button {
+    margin-right: 10px;
+}
+
+/* RPG Shop */
+.rpg-shop {
+    background-color: #2c2c2c;
+    border-top: 3px solid #ffae42; /* Shop accent */
+}
+
+.rpg-shop h2 {
+    color: #ffae42;
+    border-bottom-color: #ffae42;
+}
+
+.shop-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.shop-item {
+    background-color: #383838;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #4a4a4a;
+}
+
+.shop-item p {
+    margin: 5px 0;
+}
+
+.shop-item strong {
+    color: #bde0fe;
+}
+
+#toggle-shop-btn {
+    background-color: #ffae42;
+    color: #1a1a1a;
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0 auto; /* Center button */
+}
+#toggle-shop-btn:hover {
+    background-color: #e69a31;
+}
+#close-shop-btn {
+    background-color: #555;
+    color: #e0e0e0;
+}
+#close-shop-btn:hover {
+    background-color: #444;
+}
+
+/* Add these styles to your existing style.css file */
+
+header {
+    /* ... existing styles ... */
+    /* Modify if you want character info and nav link on the same line more explicitly */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+}
+
+.header-right-panel {
+    display: flex;
+    align-items: center; /* Align character info and nav link */
+    gap: 20px; /* Space between character info block and nav links */
+}
+
+.character-info {
+    /* ... existing styles ... */
+    /* display: flex; was already there, ensure it's good */
+    gap: 10px; /* Reduced gap slightly if needed */
+}
+
+.nav-button {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 10px; /* Current padding: 8px top/bottom, 15px left/right */
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold; /* Current font weight */
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the closed tickets page if needed */
+.ticket-archive h2 {
+    color: #77dd77; /* Green accent for closed/archived */
+    border-bottom-color: #77dd77;
+}
