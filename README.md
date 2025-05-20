@@ -7,11 +7,11 @@ Our innovative platform seamlessly integrates a captivating character-building R
 
 Why Ticket RPG for your MSP/IT Team?
 
-Boosts Morale: Turn tedious tasks into rewarding quests, reducing burnout and making work more fun.
-Increase Engagement: Encourage proactive ticket resolution and system interaction.
-Foster Team Spirit: Introduce a lighthearted, competitive (or collaborative) element to the workday.
-Clean & Modern Interface: Enjoy a minimal, dark-mode dashboard that's easy on the eyes and simple to navigate.
-Ready to make ticket management the most exciting part of the day? Discover Ticket RPG!
+- Turn tedious tasks into rewarding quests, reducing burnout and making work more fun.
+- Encourage proactive ticket resolution and system interaction.
+- Introduce a lighthearted, competitive (or collaborative) element to the workday.
+- Enjoy a minimal, dark-mode dashboard that's easy on the eyes and simple to navigate.
+- Ready to make ticket management the most exciting part of the day? Discover Ticket RPG!
 
 ![image](https://github.com/user-attachments/assets/c852905c-ee39-47ea-bf97-9680697a4d0f)
 
