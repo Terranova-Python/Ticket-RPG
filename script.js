@@ -54,14 +54,67 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentOpenTicketId = null;
     let lastBossAttemptDate = null;
 
+    const bossNames = [
+        "Shadowfang",
+        "Ironclaw",
+        "Blazewing",
+        "Venomspike",
+        "Grimjaw",
+        "Stormbreaker",
+        "Frostmaw",
+        "Dreadscale",
+        "Nightshade",
+        "Thunderfist",
+        "Bonecrusher",
+        "Firelash",
+        "Darkhowl",
+        "Skullrend",
+        "Terrorgaze",
+        "Bloodfang",
+        "Stonehide",
+        "Voidreaper",
+        "Hellstorm",
+        "Steelshadow",
+        "Cybervoid",
+        "NeonMatrix",
+        "QuantumHex",
+        "DataWraith",
+        "PixelPhantom",
+        "CircuitBreaker",
+        "NanoScourge",
+        "SynthReaper",
+        "ByteStorm",
+        "CodeSpecter",
+        "Firewall Phantom",
+        "Malware Marauder",
+        "Phishmaster",
+        "Crypto Kraken",
+        "ZeroDay Wraith",
+        "Trojan Titan",
+        "Botnet Baron",
+        "Ransom Reaper",
+        "Spyware Specter",
+        "Rootkit Rogue",
+        "DDoS Demon",
+        "Cipher Sentinel",
+        "Exploit Entity",
+        "Packet Predator",
+        "Hash Hunter",
+        "Backdoor Beast",
+        "Sandbox Savage",
+        "Trojan Tormentor",
+        "Worm Warden",
+        "Privilege Phantom"
+      ];
+
     // Game Constants
     const XP_PER_TICKET = 50;
     const GOLD_PER_LEVEL = 100;
     const XP_BASE_NEXT_LEVEL = 100;
     const BOSS_XP_REWARD = 250;
     const BOSS_GOLD_REWARD = 300;
-    const BOSS_DEFENSE_THRESHOLD = 35;
-    const BOSS_NAME = "The Glitch Tyrant";
+    const BOSS_DEFENSE_THRESHOLD = 35 + character.level;
+    const BOSS_NAME = bossNames[Math.floor(Math.random() * bossNames.length)];
 
     // --- Utility Functions ---
     function getXPForNextLevel(level) {
@@ -379,11 +432,37 @@ function renderTickets() {
         }
     }
 
+
+
+
+
+
+
+/////////////////////////////////////////////////  BOSS BATTLE TIME FUNCTIONS ///////////////////////////////////////
+
+
     function updateBossDisplay() {
         if (!bossNameSpan) return; // Guard if boss elements aren't on page for some reason
         bossNameSpan.textContent = BOSS_NAME;
+    
+        // ---- TEMPORARY 1-MINUTE COOLDOWN LOGIC FOR TESTING ----
+        const now = Date.now();
+        const lastAttempt = Number(localStorage.getItem('lastBossAttemptTimestamp')) || 0;
+        const oneMinute = 60 * 1000;
+    
+        if (now - lastAttempt < oneMinute) {
+            attackBossBtn.disabled = true;
+            bossCooldownMessage.textContent = "You have already challenged the boss recently. Try again in 1 minute!";
+            bossStatusSpan.textContent = "Resting after the last challenge.";
+        } else {
+            attackBossBtn.disabled = false;
+            bossCooldownMessage.textContent = "";
+            bossStatusSpan.textContent = "Waiting for a challenger...";
+        }
+    
+        // ---- ORIGINAL DAILY COOLDOWN LOGIC ----
+        /*
         const today = new Date().toDateString();
-
         if (lastBossAttemptDate === today) {
             attackBossBtn.disabled = true;
             bossCooldownMessage.textContent = "You have already challenged the boss today. Return tomorrow!";
@@ -393,44 +472,73 @@ function renderTickets() {
             bossCooldownMessage.textContent = "";
             bossStatusSpan.textContent = "Waiting for a challenger...";
         }
+        */
     }
-
+    
     function attemptBossBattle() {
+        // ---- TEMPORARY 1-MINUTE COOLDOWN LOGIC FOR TESTING ----
+        const now = Date.now();
+        const lastAttempt = Number(localStorage.getItem('lastBossAttemptTimestamp')) || 0;
+        const oneMinute = 60 * 1000;
+    
+        if (now - lastAttempt < oneMinute) {
+            addLogEntry("You can only attempt to defeat the boss once per minute (testing mode).", "log-fail");
+            return;
+        }
+    
+        // Store timestamp for cooldown tracking
+        localStorage.setItem('lastBossAttemptTimestamp', now);
+    
+        // ---- ORIGINAL DAILY COOLDOWN LOGIC ----
+        /*
         const today = new Date().toDateString();
         if (lastBossAttemptDate === today) {
             addLogEntry("You can only attempt to defeat the boss once per day.", "log-fail");
             return;
         }
-
+    
         lastBossAttemptDate = today;
+        */
+    
         attackBossBtn.disabled = true;
-        bossCooldownMessage.textContent = "You have challenged the boss today. Return tomorrow!";
+        bossCooldownMessage.textContent = "You have challenged the boss. Return in 1 minute!";
         bossBattleLog.innerHTML = '';
-
+    
         addLogEntry(`You gather your courage to face ${BOSS_NAME}...`, "log-info");
         const playerEffectivePower = character.level + character.weapon.bonus + character.armor.bonus;
         addLogEntry(`Your effective power: ${playerEffectivePower} (Lvl:${character.level} + Wpn:${character.weapon.bonus} + Arm:${character.armor.bonus})`, "log-info");
         addLogEntry(`${BOSS_NAME}'s defense threshold: ${BOSS_DEFENSE_THRESHOLD}`, "log-info");
-
+    
         setTimeout(() => {
             if (playerEffectivePower > BOSS_DEFENSE_THRESHOLD) {
                 addLogEntry(`${BOSS_NAME} has been defeated!`, "log-success");
                 addLogEntry(`You earned ${BOSS_XP_REWARD} XP and ${BOSS_GOLD_REWARD} Gold!`, "log-success");
-                addGold(BOSS_GOLD_REWARD); // Add gold first
-                addXP(BOSS_XP_REWARD, "Boss"); // Then add XP (which handles display updates and saving)
-                bossStatusSpan.textContent = "Defeated! Will return tomorrow.";
+                addGold(BOSS_GOLD_REWARD);
+                addXP(BOSS_XP_REWARD, "Boss");
+                bossStatusSpan.textContent = "Defeated! Will return shortly.";
             } else {
                 const powerDifference = BOSS_DEFENSE_THRESHOLD - playerEffectivePower;
                 addLogEntry(`${BOSS_NAME} shrugs off your attack! You were not strong enough (by ${powerDifference} power).`, "log-fail");
-                addLogEntry("No rewards gained. Train harder and try again tomorrow!", "log-fail");
+                addLogEntry("No rewards gained. Train harder and try again soon!", "log-fail");
                 bossStatusSpan.textContent = "Victorious! Awaits a stronger challenger.";
-                saveState(); // Save state even on failure (to record the attempt date)
-                updateCharacterDisplay(); // Ensure display is current
+                saveState();
+                updateCharacterDisplay();
             }
-            // updateBossDisplay(); // No, this is called by loadState or at end of functions that affect cooldown
         }, 1500);
-        updateBossDisplay(); // Update button status immediately after an attempt
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // --- Event Listeners ---
     openCreateTicketModalBtn.addEventListener('click', openCreateTicketModal);

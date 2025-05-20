@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TicketQuest</title>
+    <title>Ticket RPG</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,11 +20,10 @@
                     <div>Armor: <span id="char-armor">Rags</span></div>
                 </div>
                 <div class="navigation-links">
-                    <a href="closed_tickets.html" class="nav-button">Closed Tickets</a>
+                    <a href="closed_tickets.html" class="nav-button">Closed</a>
                 </div>
             </div>
             </header>
-
         <main class="main-content">
             <section class="ticket-management">
                 <h2>Active Ticket Dashboard</h2> <button id="open-create-ticket-modal-btn">Create New Ticket</button>
@@ -33,7 +32,7 @@
             </section>
 
             <section class="boss-lair">
-                <h2>The Glitch Tyrant's Lair</h2>
+                <h2>Boss Battles</h2>
                 <div id="boss-info">
                     <p><strong>Boss:</strong> <span id="boss-name">The Glitch Tyrant</span></p>
                     <p><strong>Status:</strong> <span id="boss-status">Waiting for a challenger...</span></p>
@@ -43,7 +42,6 @@
                 <div id="boss-battle-log" class="battle-log">
                 </div>
             </section>
-
             <section class="rpg-shop" id="rpg-shop" style="display: none;">
                 <h2>Adventurer's Guild Shop</h2>
                 <div class="shop-items">
@@ -101,7 +99,6 @@
                 </form>
             </div>
         </div>
-
         <div id="ticket-details-modal" class="modal">
             <div class="modal-content">
                 <span class="close-btn" id="close-details-modal-btn">&times;</span>
@@ -121,12 +118,11 @@
                     </div>
                 </div>
                 <div class="ticket-actions">
-                    <button id="close-ticket-btn">Close Ticket & Claim XP</button>
+                    <button id="close-ticket-btn">Close Ticket & Claim XP!</button>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
