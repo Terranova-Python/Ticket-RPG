@@ -354,3 +354,23 @@ header {
     color: #77dd77; /* Green accent for closed/archived */
     border-bottom-color: #77dd77;
 }
+
+/* Make the ticket chart smaller and centered */
+#ticketChart {
+    max-width: 320px;
+    max-height: 220px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.avg-resolution-widget {
+    margin-top: 10px;
+    background: #23272e;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 1em;
+    color: #bde0fe;
+}

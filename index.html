@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket RPG</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
 </head>
 <body>
     <div class="container">
@@ -24,12 +25,20 @@
                 </div>
             </div>
             </header>
-        <main class="main-content">
-            <section class="ticket-management">
-                <h2>Active Ticket Dashboard</h2> <button id="open-create-ticket-modal-btn">Create New Ticket</button>
-                <div id="ticket-list" class="ticket-list">
-                    </div>
-            </section>
+                <main class="main-content">
+                    <!-- Ticket Stats Graph Section -->
+                    <section class="ticket-stats">
+                        <h2>Ticket Overview</h2>
+                        <canvas id="ticketChart" width="220" height="120"></canvas>
+                        <div id="avg-resolution-time" class="avg-resolution-widget">
+                            <strong>Average Resolution Time:</strong> <span id="avg-resolution-value">--</span>
+                        </div>
+                    </section>
+                    <section class="ticket-management">
+                        <h2>Active Ticket Dashboard</h2> <button id="open-create-ticket-modal-btn">Create New Ticket</button>
+                        <div id="ticket-list" class="ticket-list">
+                            </div>
+                  </section>
 
             <section class="boss-lair">
                 <h2>Boss Battles</h2>
@@ -75,13 +84,40 @@
                         <p>Cost: 600 G</p>
                         <button class="buy-item-btn">Buy</button>
                     </div>
+    <div class="shop-item" data-type="weapon" data-name="Dagger" data-cost="50" data-bonus="5">
+        <p><strong>Dagger</strong> (+5 ATK)</p>
+        <p>Cost: 50 G</p>
+        <button class="buy-item-btn">Buy</button>
+    </div>
+    <!-- ...existing items... -->
+
+    <!-- New, better weapons and armor -->
+    <div class="shop-item" data-type="weapon" data-name="Obsidian Greatsword" data-cost="1200" data-bonus="60">
+        <p><strong>Obsidian Greatsword</strong> (+60 ATK)</p>
+        <p>Cost: 1200 G</p>
+        <button class="buy-item-btn">Buy</button>
+    </div>
+    <div class="shop-item" data-type="weapon" data-name="Celestial Katana" data-cost="2500" data-bonus="100">
+        <p><strong>Celestial Katana</strong> (+100 ATK)</p>
+        <p>Cost: 2500 G</p>
+        <button class="buy-item-btn">Buy</button>
+    </div>
+    <div class="shop-item" data-type="armor" data-name="Dragonhide Cloak" data-cost="1500" data-bonus="65">
+        <p><strong>Dragonhide Cloak</strong> (+65 DEF)</p>
+        <p>Cost: 1500 G</p>
+        <button class="buy-item-btn">Buy</button>
+    </div>
+    <div class="shop-item" data-type="armor" data-name="Aegis of Legends" data-cost="3000" data-bonus="110">
+        <p><strong>Aegis of Legends</strong> (+110 DEF)</p>
+        <p>Cost: 3000 G</p>
+        <button class="buy-item-btn">Buy</button>
+    </div>
                 </div>
                 <button id="close-shop-btn">Close Shop</button>
             </section>
             <button id="toggle-shop-btn">Visit Shop</button>
 
         </main>
-
         <div id="create-ticket-modal" class="modal">
             <div class="modal-content">
                 <span class="close-btn" id="close-create-modal-btn">&times;</span>
@@ -108,6 +144,7 @@
                 <p><strong>Reported:</strong> <span id="details-ticket-reported"></span></p>
                 <p><strong>Description:</strong></p>
                 <p id="details-ticket-description"></p>
+                <p><strong>Resolution Time:</strong> <span id="details-ticket-resolution-time">--</span></p>
 
                 <div class="ticket-notes">
                     <h3>Notes:</h3>

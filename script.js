@@ -242,60 +242,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Ticket Functions ---
     function renderTickets() {
-        ticketListDiv.innerHTML = '';
-        if (tickets.length === 0) {
-            ticketListDiv.innerHTML = '<p>No tickets yet. Create one!</p>';
+        ticketListDiv.innerHTML = ''; // Clear existing tickets
+
+        // Calculate open and closed ticket counts
+        const openTickets = tickets.filter(ticket => ticket.status !== 'Closed');
+        const closedTickets = tickets.filter(ticket => ticket.status === 'Closed');
+
+        // Update the chart with real counts
+        renderTicketChart(openTickets.length, closedTickets.length);
+
+        if (openTickets.length === 0) {
+            ticketListDiv.innerHTML = '<p>No active tickets. Create one or check the archive!</p>';
             return;
         }
-        tickets.forEach(ticket => {
+
+        openTickets.forEach(ticket => {
             const ticketDiv = document.createElement('div');
             ticketDiv.classList.add('ticket-item');
             ticketDiv.dataset.id = ticket.id;
+            let reportedDateDisplay = new Date(ticket.reportedDate).toLocaleDateString();
+            let extraInfo = `<p>Reported: ${reportedDateDisplay}</p>`;
+
             ticketDiv.innerHTML = `
                 <h3>${ticket.title}</h3>
                 <p>ID: ${ticket.id}</p>
                 <p>Status: <span class="status-${ticket.status.toLowerCase()}">${ticket.status}</span></p>
-                <p>Reported: ${new Date(ticket.reportedDate).toLocaleDateString()}</p>
+                ${extraInfo}
             `;
             ticketDiv.addEventListener('click', () => openTicketDetails(ticket.id));
             ticketListDiv.appendChild(ticketDiv);
         });
     }
-
-
-// --- Ticket Functions ---
-function renderTickets() {
-    ticketListDiv.innerHTML = ''; // Clear existing tickets
-    
-    const openTickets = tickets.filter(ticket => ticket.status !== 'Closed'); // Filter for open tickets
-
-    if (openTickets.length === 0) {
-        ticketListDiv.innerHTML = '<p>No active tickets. Create one or check the archive!</p>';
-        return;
-    }
-
-    openTickets.forEach(ticket => { // Iterate over open tickets only
-        const ticketDiv = document.createElement('div');
-        ticketDiv.classList.add('ticket-item');
-        ticketDiv.dataset.id = ticket.id;
-        // Displaying closed date if available, though primarily for open tickets here
-        let reportedDateDisplay = new Date(ticket.reportedDate).toLocaleDateString();
-        let extraInfo = `<p>Reported: ${reportedDateDisplay}</p>`;
-
-        ticketDiv.innerHTML = `
-            <h3>${ticket.title}</h3>
-            <p>ID: ${ticket.id}</p>
-            <p>Status: <span class="status-${ticket.status.toLowerCase()}">${ticket.status}</span></p>
-            ${extraInfo}
-        `;
-        // Only add click listener to open ticket details modal if it's not closed.
-        // Or, allow opening to see history, but actions (add note, close) would be disabled.
-        // For this main page, it makes sense to interact with open tickets.
-        ticketDiv.addEventListener('click', () => openTicketDetails(ticket.id));
-        ticketListDiv.appendChild(ticketDiv);
-    });
-}
-
 
     function createTicket(title, description) {
         const newTicket = {
@@ -371,6 +348,19 @@ function renderTickets() {
         }
         closeTicketBtn.disabled = ticket.status === 'Closed';
         closeTicketBtn.textContent = ticket.status === 'Closed' ? 'Ticket Already Closed' : 'Close Ticket & Claim XP';
+
+        // Add this block to show resolution time if ticket is closed
+        const resolutionTimeElem = document.getElementById('details-ticket-resolution-time');
+        if (ticket.status === 'Closed' && ticket.closedDate && ticket.reportedDate) {
+            const reported = new Date(ticket.reportedDate).getTime();
+            const closed = new Date(ticket.closedDate).getTime();
+            const diffMs = closed - reported;
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.round((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            resolutionTimeElem.textContent = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+        } else {
+            resolutionTimeElem.textContent = '--';
+        }
     }
 
     function openTicketDetails(ticketId) {
@@ -530,8 +520,30 @@ function renderTickets() {
 
 
 
+function renderTicketChart(openCount, closedCount) {
+    const ctx = document.getElementById('ticketChart').getContext('2d');
+    if (window.ticketChartInstance) {
+        window.ticketChartInstance.destroy();
+    }
+    window.ticketChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Open Tickets', 'Closed Tickets'],
+            datasets: [{
+                data: [openCount, closedCount],
+                backgroundColor: ['#36a2eb', '#4caf50'],
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+}
 
-
+renderTicketChart(5, 12);
 
 
 
@@ -605,3 +617,24 @@ function renderTickets() {
     // --- Initial Load ---
     loadState();
 });
+
+function updateAverageResolutionTime() {
+    // Get all closed tickets with both reportedDate and closedDate
+    const closedTickets = tickets.filter(ticket => ticket.status === 'Closed' && ticket.closedDate && ticket.reportedDate);
+    if (closedTickets.length === 0) {
+        document.getElementById('avg-resolution-value').textContent = '--';
+        return;
+    }
+    // Calculate total resolution time in milliseconds
+    const totalMs = closedTickets.reduce((sum, t) => {
+        const reported = new Date(t.reportedDate).getTime();
+        const closed = new Date(t.closedDate).getTime();
+        return sum + (closed - reported);
+    }, 0);
+    const avgMs = totalMs / closedTickets.length;
+    const avgHours = avgMs / (1000 * 60 * 60);
+    const hours = Math.floor(avgHours);
+    const minutes = Math.round((avgHours - hours) * 60);
+    document.getElementById('avg-resolution-value').textContent =
+        hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+}
