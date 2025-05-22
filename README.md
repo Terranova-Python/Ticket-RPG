@@ -13,7 +13,7 @@ Why Ticket RPG for your MSP/IT Team?
 - Enjoy a minimal, dark-mode dashboard that's easy on the eyes and simple to navigate.
 - Ready to make ticket management the most exciting part of the day? Discover Ticket RPG!
 
-![image](https://github.com/user-attachments/assets/c852905c-ee39-47ea-bf97-9680697a4d0f)
+![image](https://github.com/user-attachments/assets/c0cbd88a-0176-4c0f-bac2-203593d4a211)
 
 ![image](https://github.com/user-attachments/assets/5df2fd86-253d-4952-b25a-4605326f42ed)
 
