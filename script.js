@@ -305,9 +305,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ticket && ticket.status === 'Open') {
             ticket.status = 'Closed';
             ticket.closedDate = new Date().toISOString();
-            addLogEntry(`Ticket "${ticket.title}" closed! You earned ${XP_PER_TICKET} XP!`, "log-info", bossBattleLog); // Use common log
-            addXP(XP_PER_TICKET, "Ticket"); // This will handle saveState and updateCharacterDisplay
+            addLogEntry(`Ticket "${ticket.title}" closed! You earned ${XP_PER_TICKET} XP!`, "log-info", bossBattleLog);
+            addXP(XP_PER_TICKET, "Ticket");
             renderTickets();
+            updateAverageResolutionTime(); // <-- Add this line
             closeDetailsModal();
         } else if (ticket && ticket.status === 'Closed') {
             alert('This ticket is already closed.');
@@ -510,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const powerDifference = BOSS_DEFENSE_THRESHOLD - playerEffectivePower;
                 addLogEntry(`${BOSS_NAME} shrugs off your attack! You were not strong enough (by ${powerDifference} power).`, "log-fail");
                 addLogEntry("No rewards gained. Train harder and try again soon!", "log-fail");
-                bossStatusSpan.textContent = "Victorious! Awaits a stronger challenger.";
+                bossStatusSpan.textContent = `${BOSS_NAME} is victorious! Awaits a stronger challenger.`;
                 saveState();
                 updateCharacterDisplay();
             }
@@ -616,6 +617,31 @@ renderTicketChart(5, 12);
 
     // --- Initial Load ---
     loadState();
+    updateAverageResolutionTime();
+
+    // --- Average Resolution Time Function ---
+    function updateAverageResolutionTime() {
+        // Get all closed tickets with both reportedDate and closedDate
+        const closedTickets = tickets.filter(ticket => ticket.status === 'Closed' && ticket.closedDate && ticket.reportedDate);
+        if (closedTickets.length === 0) {
+            document.getElementById('avg-resolution-value').textContent = '--';
+            return;
+        }
+        // Calculate total resolution time in milliseconds
+        const totalMs = closedTickets.reduce((sum, t) => {
+            const reported = new Date(t.reportedDate).getTime();
+            const closed = new Date(t.closedDate).getTime();
+            return sum + (closed - reported);
+        }, 0);
+        const avgMs = totalMs / closedTickets.length;
+        const avgHours = avgMs / (1000 * 60 * 60);
+        const hours = Math.floor(avgHours);
+        const minutes = Math.round((avgHours - hours) * 60);
+        document.getElementById('avg-resolution-value').textContent =
+            hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+    }
+
+    // ...existing code...
 });
 
 function updateAverageResolutionTime() {

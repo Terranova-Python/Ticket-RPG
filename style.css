@@ -374,3 +374,13 @@ header {
     font-size: 1em;
     color: #bde0fe;
 }
+
+/* New Character Icon Style */
+.char-icon {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 8px;
+    border-radius: 50%;
+    object-fit: cover;
+}
